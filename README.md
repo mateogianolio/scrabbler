@@ -32,8 +32,7 @@ scrabbler.get = function(string, callback)
 
 * **```string```**
     * Any alphabetical string.
-
-  **```callback(error, data)```**
+* **```callback(error, data)```**
     * ```error```
       * Error message or ```null```.
     * ```data```
