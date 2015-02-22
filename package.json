@@ -1,0 +1,11 @@
+{
+  "name": "scrabbler",
+  "version": "1.0.0",
+  "description": "generates all valid english words from a given combination of letters and scores them according to scrabble rules",
+  "main": "main.js",
+  "scripts": {
+    "test": "node test.js testing"
+  },
+  "author": "Mateo Gianolio",
+  "license": "MIT"
+}
