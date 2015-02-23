@@ -60,7 +60,10 @@ scrabbler.get = function(string, callback)
 
 ## Output format
 
-```{```
+```
+{
+```
+
 **```words: [```**
   * ```word:```
     * A string with the generated word.
@@ -76,7 +79,9 @@ scrabbler.get = function(string, callback)
 **```, time:```**
   * Execution time.
 
-```}```
+```
+}
+```
 
 ## Example
 
