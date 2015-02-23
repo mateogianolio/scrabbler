@@ -60,18 +60,19 @@ scrabbler.get = function(string, callback)
 
 ## Output format
 
+```{```
 * **```words: [```**
-    * A list of generated words.
-    * ```word```
+    * ```word:```
       * A string with the generated word.
-    * ```score```
+    * ```score:```
       * The score of the generated word.
-* **```], score_total```**
+* **```], score_total:```**
     * Total score of generated words.
-* **```fraction```**
+* **```, fraction:```**
     * Fraction of the total unique letter combinations that resulted in valid words. The total unique letter combinations found can be calculated with ```words.length / fraction```.
-* **```time```**
+* **```, time:```**
     * Execution time.
+```}```
 
 ## Example
 
