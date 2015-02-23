@@ -3,9 +3,17 @@
   "version": "1.0.0",
   "description": "generates all valid english words from a given combination of letters and scores them according to scrabble rules",
   "main": "main.js",
-  "scripts": {
-    "test": "node test.js testing"
+  "bin": {
+    "scrabbler": "./cli.js"
   },
+  "scripts": {
+    "test": "node test.js scrabbler"
+  },
+  "repository": {
+    "type" : "git",
+    "url" : "http://github.com/mateogianolio/scrabbler.git"
+  },
+  "bugs": "http://github.com/mateogianolio/scrabbler/issues",
   "author": "Mateo Gianolio",
   "license": "MIT"
 }

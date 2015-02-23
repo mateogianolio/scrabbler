@@ -7,7 +7,7 @@ Generates all valid english words from a given combination of letters and scores
 Clone or install via ```npm```
 
 ```bash
-$ npm install scrabbler
+$ npm install scrabbler [-g]
 ```
 
 Test with (scroll down to see example test output)
@@ -22,6 +22,12 @@ Include in your project with
 
 ```javascript
 var scrabbler = require('scrabbler');
+```
+
+If installed with ```npm install -g```, run with
+
+```bash
+$ scrabbler <string>
 ```
 
 ## Methods
