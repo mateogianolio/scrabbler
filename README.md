@@ -2,6 +2,20 @@
 
 Generates all valid english words from a given combination of letters and scores them according to scrabble rules.
 
+```bash
+$ scrabbler cool
+{ words: 
+   [ { word: 'lo', score: 2 },
+     { word: 'oo', score: 2 },
+     { word: 'col', score: 5 },
+     { word: 'coo', score: 5 },
+     { word: 'loo', score: 3 },
+     { word: 'cool', score: 6 } ],
+  score_total: 23,
+  fraction: 0.3333333333333333,
+  time: 0.06150672404328361 }
+```
+
 ## Installation
 
 Clone or install via ```npm```
