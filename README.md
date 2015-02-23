@@ -80,7 +80,7 @@ See test output below.
 ```bash
 $ npm test
 
-> scrabbler@1.0.0 test /Users/mateogianolio/Desktop/projects/scrabbler
+> scrabbler@1.0.0 test /path/to/scrabbler
 > node test.js scrabbler
 
 { words: 
