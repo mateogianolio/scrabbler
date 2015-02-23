@@ -32,7 +32,7 @@ $ npm test
 
 ## Usage
 
-If installed with ```npm install -g```, run with
+If globally installed, run with
 
 ```bash
 $ scrabbler <string>
