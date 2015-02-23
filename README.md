@@ -49,7 +49,7 @@ scrabbler.get = function(string, callback)
 * **```score_total```**
     * Total score of generated words.
 * **```fraction```**
-    * Fraction of the total unique letter combinations that resulted in valid words. The total unique letter combinations found can be calculated with ```**words**.length / **fraction**```.
+    * Fraction of the total unique letter combinations that resulted in valid words. The total unique letter combinations found can be calculated with ```words.length / fraction```.
 * **```time```**
     * Execution time.
 
