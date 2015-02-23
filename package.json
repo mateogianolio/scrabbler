@@ -4,10 +4,10 @@
   "description": "generates all valid english words from a given combination of letters and scores them according to scrabble rules",
   "main": "main.js",
   "bin": {
-    "scrabbler": "./cli.js"
+    "scrabbler": "./bin/cli.js"
   },
   "scripts": {
-    "test": "node test.js scrabbler"
+    "test": "node test/test.js scrabbler"
   },
   "repository": {
     "type" : "git",

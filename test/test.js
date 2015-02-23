@@ -1,4 +1,4 @@
-var scrabbler = require('./main.js');
+var scrabbler = require('../main.js');
 
 var argv = process.argv;
 if(argv.length !== 3) {
