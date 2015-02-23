@@ -18,16 +18,16 @@ $ npm test
 
 ## Usage
 
-Include in your project with
-
-```javascript
-var scrabbler = require('scrabbler');
-```
-
 If installed with ```npm install -g```, run with
 
 ```bash
 $ scrabbler <string>
+```
+
+Include in your project with
+
+```javascript
+var scrabbler = require('scrabbler');
 ```
 
 ## Methods
