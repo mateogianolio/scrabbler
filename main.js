@@ -17,7 +17,7 @@ exports.get = function(string, callback) {
   
   letters.forEach(function(letter) {
     if(string.indexOf(letter) !== -1) {
-      var data = fs.readFileSync('./words/' + letter + '.json');
+      var data = fs.readFileSync('words/' + letter + '.json');
       data = JSON.parse(data);
       
       if(data === null)
