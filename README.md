@@ -38,13 +38,11 @@ If globally installed, run with
 $ scrabbler <string>
 ```
 
-Include in your project with
+## Methods
 
 ```javascript
 var scrabbler = require('scrabbler');
 ```
-
-## Methods
 
 ```javascript
 scrabbler.get = function(string, callback)
