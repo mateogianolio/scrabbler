@@ -59,7 +59,6 @@ scrabbler.get = function(string, callback)
 ## Output format
 
 * **```words```**
-    * A list of generated words.
     * ```word```
       * A string with the generated word.
     * ```score```
