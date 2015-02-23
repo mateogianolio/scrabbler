@@ -1,6 +1,6 @@
 # Scrabbler
 
-Generates all valid english words from a given combination of letters and scores them according to scrabble rules.
+Generates all valid english words from a given combination of letters and scores them according to the [scrabble tile distribution](http://boardgames.about.com/od/scrabble/a/tile_distribute.htm).
 
 ```bash
 $ scrabbler cool
