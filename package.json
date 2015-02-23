@@ -1,6 +1,6 @@
 {
   "name": "scrabbler",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "generates all valid english words from a given combination of letters and scores them according to scrabble rules",
   "main": "main.js",
   "bin": {
