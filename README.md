@@ -1,6 +1,6 @@
 # Scrabbler
 
-Generates all valid english words from a given combination of letters and scores them according to the [scrabble tile distribution](http://boardgames.about.com/od/scrabble/a/tile_distribute.htm).
+Generates all valid english words from a given combination of letters and scores them according to the [scrabble tile distribution](http://boardgames.about.com/od/scrabble/a/tile_distribute.htm). Uses the [SOWPODS dictionary](http://en.wikipedia.org/wiki/SOWPODS).
 
 ```bash
 $ scrabbler cool
@@ -77,8 +77,8 @@ See test output below.
 ```bash
 $ npm test
 
-> scrabbler@1.0.0 test /path/to/scrabbler
-> node test.js scrabbler
+> scrabbler@1.0.3 test /path/to/scrabbler
+> node test/test.js scrabbler
 
 { words: 
    [ { word: 'ab', score: 4 },

@@ -1,7 +1,8 @@
 {
   "name": "scrabbler",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "generates all valid english words from a given combination of letters and scores them according to scrabble rules",
+  "keywords": "scrabble, scrabbler, string manipulation, word generator",
   "main": "main.js",
   "bin": {
     "scrabbler": "./bin/cli.js"
