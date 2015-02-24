@@ -1,6 +1,6 @@
 {
   "name": "scrabbler",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "generates all valid english words from a given combination of letters and scores them according to scrabble rules",
   "keywords": "scrabble, scrabbler, string manipulation, word generator",
   "main": "main.js",
@@ -8,7 +8,7 @@
     "scrabbler": "./bin/cli.js"
   },
   "scripts": {
-    "test": "node test/test.js scrabbler"
+    "test": "node test/test.js testing"
   },
   "repository": {
     "type" : "git",

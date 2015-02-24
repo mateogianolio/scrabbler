@@ -13,7 +13,13 @@ exports.get = function(string, callback) {
     score_total: 0
   };
   
-  var words = uniq_fast(combinations(string));
+  var words = uniq_fast(
+    scramble(string)
+      .map(combinations)
+      .reduce(function(prev, cur) {
+        return prev.concat(cur)
+      })
+  );
   
   letters.forEach(function(letter) {
     if(string.indexOf(letter) !== -1) {
@@ -90,5 +96,44 @@ function combinations(str) {
     }
     return a;
   }
-  return fn("", str, []).concat(fn("", str.split('').reverse().join(''), []));
+  return fn("", str, []);
+}
+
+// helper to scramble string
+function scramble(str){
+  //Array to store the generated words
+  var words = [];
+  
+  /**
+   * Recursive function to split a string and rearrange 
+   * it's characters and then join the results
+   * @str: String [String to split]
+   * @prefix: String [Characters to prepend to the string]
+   */
+  function rearrange(str, prefix) {
+    var i, singleChar, balanceStr, word;
+ 
+    //The first time round, prefix will be empty
+    prefix = prefix || '';
+    
+    //Loop over the str to separate each single character
+    //from the rest of it's characters
+    for(i = 0; i < str.length; i++) {
+      singleChar = str[i];
+      balanceStr = str.slice(0, i) + str.slice(i+1);
+      
+      //join the prefix with each of the combinations
+      word = prefix + singleChar + balanceStr;
+ 
+      //Inject this word only if it does not exist
+      if(words.indexOf(word) < 0) words.push(word);
+      
+      //Recursively call this function in case there are balance characters
+      if(balanceStr.length > 1) rearrange(balanceStr, prefix + singleChar);
+    }
+  }
+  
+  //kick start recursion
+  rearrange(str);
+  return words;
 }
