@@ -13,8 +13,8 @@ $ scrabbler cool
      { word: 'cool', score: 6 },
      { word: 'loco', score: 6 } ],
   score_total: 29,
-  fraction: 0.20588235294117646,
-  time: 0.10445709700434236 }
+  fraction: 0.22580645161290322,
+  time: 0.004240139998728409 }
 ```
 
 ## Installation
@@ -78,7 +78,7 @@ See test output below.
 ```bash
 $ npm test
 
-> scrabbler@1.0.5 test /path/to/scrabbler
+> scrabbler@1.0.8 test /path/to/scrabbler
 > node test/test.js testing
 
 { words: 
@@ -203,6 +203,10 @@ $ npm test
      { word: 'setting', score: 8 },
      { word: 'testing', score: 8 } ],
   score_total: 514,
-  fraction: 0.017113519680547633,
-  time: 9.587973607995082 }
+  fraction: 0.01712817584927205,
+  time: 9.199076068005525 }
 ```
+
+## Contribute
+
+Tips on how to improve query performance are highly appreciated. Feel free to fork and submit pull requests.
