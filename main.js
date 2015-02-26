@@ -16,9 +16,8 @@ exports.get = function(string, callback) {
   var words = uniq_fast(
     scramble(string)
       .map(combinations)
-      .reduce(function(prev, cur) {
-        return prev.concat(cur)
-      })
+      .reduce(function(prev, cur) { return prev.concat(cur) })
+      .filter(function(word) { return word.length > 1; })
   );
   
   var query = 'SELECT word, score FROM words WHERE word IN ("' + words.join('", "') + '")';
