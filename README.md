@@ -14,7 +14,7 @@ $ scrabbler cool
      { word: 'loco', score: 6 } ],
   score_total: 29,
   fraction: 0.20588235294117646,
-  time: 0.07270832802169025 }
+  time: 0.10445709700434236 }
 ```
 
 ## Installation
@@ -78,7 +78,7 @@ See test output below.
 ```bash
 $ npm test
 
-> scrabbler@1.0.4 test /path/to/scrabbler
+> scrabbler@1.0.5 test /path/to/scrabbler
 > node test/test.js testing
 
 { words: 
@@ -204,5 +204,5 @@ $ npm test
      { word: 'testing', score: 8 } ],
   score_total: 514,
   fraction: 0.017113519680547633,
-  time: 14.30542162101483 }
+  time: 9.587973607995082 }
 ```

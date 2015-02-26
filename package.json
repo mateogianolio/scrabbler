@@ -1,6 +1,6 @@
 {
   "name": "scrabbler",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "generates all valid english words from a given combination of letters and scores them according to scrabble rules",
   "keywords": "scrabble, scrabbler, string manipulation, word generator",
   "main": "main.js",
@@ -11,10 +11,13 @@
     "test": "node test/test.js testing"
   },
   "repository": {
-    "type" : "git",
-    "url" : "http://github.com/mateogianolio/scrabbler.git"
+    "type": "git",
+    "url": "http://github.com/mateogianolio/scrabbler.git"
   },
   "bugs": "http://github.com/mateogianolio/scrabbler/issues",
   "author": "Mateo Gianolio",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "sqlite3": "^3.0.5"
+  }
 }
