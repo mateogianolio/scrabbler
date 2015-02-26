@@ -51,6 +51,7 @@ exports.get = function(string, callback) {
     });
 
     callback(null, output);
+    db.close();
   });
 };
 
