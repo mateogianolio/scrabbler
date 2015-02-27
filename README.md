@@ -81,7 +81,7 @@ See test output below.
 ```bash
 $ npm test
 
-> scrabbler@1.0.9 test /path/to/scrabbler
+> scrabbler@1.1.0 test /path/to/scrabbler
 > node test/test.js testing
 
 { words: 
