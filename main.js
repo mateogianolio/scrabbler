@@ -1,53 +1,67 @@
-var sqlite3 = require('sqlite3').verbose();
+var sqlite3 = require('sqlite3');
 var db = new sqlite3.Database(__dirname + '/db/words.db');
 
 exports.get = function(string, callback) {
-  var time = process.hrtime();
-  var start = time.pop() / 1000000000 + time.pop();
-  
   var output = {
     words: [],
     score_total: 0
   };
   
-  var words = uniq_fast(
-    scramble(string)
-      .map(combinations)
-      .reduce(function(prev, cur) { return prev.concat(cur) })
-      .filter(function(word) { return word.length > 1; })
-  );
+  var words = [],
+      set = [];
   
+  // start timing
+  var start = process.hrtime();
+  
+  // generate power set
+  power(string)
+    .forEach(function(element) {
+      if(element.length > 1)
+        set.push(element.join(''));
+    });
+  
+  // permutate
+  set = set.map(permute);
+  
+  // flatten
+  for(var i = 0; i < set.length; i++)
+    for(var j = 0; j < set[i].length; j++)
+      words.push(set[i][j]);
+  
+  // remove duplicates
+  words = uniq_fast(words);
+  
+  // logic exec time
+  end = process.hrtime(start);
+  var logic_time = end.pop() / 1000000000 + end.pop();
+
   var query = 'SELECT word, score FROM words WHERE word IN ("' + words.join('", "') + '")';
-  db.all(query, function(error, rows) {
+  db.each(query, function(error, row) {
     if(error)
       throw error;
     
-    rows.forEach(function(row) {
-      output.words.push({
-        word: row.word,
-        score: row.score
-      });
-      output.score_total += row.score;
+    if(!row)
+      return;
+    
+    output.words.push({
+      word: row.word,
+      score: row.score
     });
     
+    output.score_total += row.score;
+  }, function(error, num_rows) {
     // fraction of combinations being valid words
-    output.fraction = rows.length / words.length;
+    output.fraction = num_rows / words.length;
 
-    // execution time
-    time = process.hrtime();
-    output.time = (time.pop() / 1000000000 + time.pop()) - start;
-
-    // sort by word length, then alphabetically
-    output.words.sort(function(a, b) {
-      if(a.word.length < b.word.length) return -1;
-      if(a.word.length > b.word.length) return 1;
-      if(a.word < b.word) return -1;
-      if(a.word > b.word) return 1;
-
-      return 0;
-    });
+    // total exec time
+    end = process.hrtime(start);
+    var total_time = end.pop() / 1000000000 + end.pop();
+    
+    output.query_time = total_time - logic_time;
+    output.logic_time = logic_time;
 
     callback(null, output);
+    
     db.close();
   });
 };
@@ -59,42 +73,35 @@ function uniq_fast(a) {
   var len = a.length;
   var j = 0;
   for(var i = 0; i < len; i++) {
-     var item = a[i];
-     if(seen[item] !== 1) {
-       seen[item] = 1;
-       out[j++] = item;
-     }
+    var item = a[i];
+    if(seen[item] !== 1) {
+      seen[item] = 1;
+      out[j++] = item;
+    }
   }
   return out;
 }
 
-// helper to find all combinations of letters from a string
-function combinations(str) {
-  var fn = function(active, rest, a) {
-    if(!active && !rest)
-      return;
-    if(!rest) {
-      a.push(active);
-    } else {
-      fn(active + rest[0], rest.slice(1), a);
-      fn(active, rest.slice(1), a);
-    }
-    return a;
-  }
-  return fn("", str, []);
+// helper to generate a power set
+function power(set) {
+	return [].slice.call(set).reduce(
+		function(previous, current) {
+      var copy = previous.slice(0);
+			copy.forEach(function(e) {
+				var e2 = e.slice(0);
+				e2.push(current);
+				previous.push(e2);
+			});
+			return previous;
+		},
+		[[]]
+	);
 }
 
-// helper to scramble string
-function scramble(str){
-  //Array to store the generated words
+// helper to generate string permutations
+function permute(str){
   var words = [];
   
-  /**
-   * Recursive function to split a string and rearrange 
-   * it's characters and then join the results
-   * @str: String [String to split]
-   * @prefix: String [Characters to prepend to the string]
-   */
   function rearrange(str, prefix) {
     var i, singleChar, balanceStr, word;
  
@@ -111,10 +118,12 @@ function scramble(str){
       word = prefix + singleChar + balanceStr;
  
       //Inject this word only if it does not exist
-      if(words.indexOf(word) < 0) words.push(word);
+      if(words.indexOf(word) < 0)
+        words.push(word);
       
       //Recursively call this function in case there are balance characters
-      if(balanceStr.length > 1) rearrange(balanceStr, prefix + singleChar);
+      if(balanceStr.length > 1)
+        rearrange(balanceStr, prefix + singleChar);
     }
   }
   

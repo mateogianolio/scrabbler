@@ -1,6 +1,6 @@
 {
   "name": "scrabbler",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "description": "generates all valid english words from a given combination of letters and scores them according to scrabble rules",
   "keywords": "scrabble, scrabbler, string manipulation, word generator, dictionary",
   "main": "main.js",
