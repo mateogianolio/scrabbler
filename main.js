@@ -13,23 +13,19 @@ exports.get = function(string, callback) {
   // start timing
   var start = process.hrtime();
   
-  // generate power set
-  power(string)
-    .forEach(function(element) {
-      if(element.length > 1)
-        set.push(element.join(''));
-    });
+  // generate power set with permutations
+  power(string).forEach(function(element) {
+    if(element.length > 1)
+      set.push(permute(element.join('')));
+  });
   
-  // permutate
-  set = set.map(permute);
-  
-  // flatten
+  // flatten set
   for(var i = 0; i < set.length; i++)
     for(var j = 0; j < set[i].length; j++)
       words.push(set[i][j]);
   
   // remove duplicates
-  words = uniq_fast(words);
+  words = unique(words);
   
   // logic exec time
   end = process.hrtime(start);
@@ -40,6 +36,7 @@ exports.get = function(string, callback) {
     if(error)
       throw error;
     
+    // not found
     if(!row)
       return;
     
@@ -50,6 +47,9 @@ exports.get = function(string, callback) {
     
     output.score_total += row.score;
   }, function(error, num_rows) {
+    if(error)
+      throw error;
+    
     // fraction of combinations being valid words
     output.fraction = num_rows / words.length;
 
@@ -67,67 +67,70 @@ exports.get = function(string, callback) {
 };
 
 // helper to remove duplicates from array
-function uniq_fast(a) {
-  var seen = {};
-  var out = [];
-  var len = a.length;
-  var j = 0;
+function unique(array) {
+  var seen = {},
+      out = [],
+      len = array.length,
+      j = 0;
+  
   for(var i = 0; i < len; i++) {
-    var item = a[i];
+    var item = array[i];
     if(seen[item] !== 1) {
       seen[item] = 1;
       out[j++] = item;
     }
   }
+  
   return out;
 }
 
 // helper to generate a power set
-function power(set) {
-	return [].slice.call(set).reduce(
-		function(previous, current) {
-      var copy = previous.slice(0);
-			copy.forEach(function(e) {
-				var e2 = e.slice(0);
-				e2.push(current);
-				previous.push(e2);
-			});
-			return previous;
-		},
-		[[]]
-	);
+function power(string) {
+  var copy,
+      deep_copy;
+  
+  return [].slice.call(string).reduce( function(previous, current) {
+    copy = previous.slice(0);
+    copy.forEach(function(element) {
+      deep_copy = element.slice(0);
+      deep_copy.push(current);
+      previous.push(deep_copy);
+    });
+
+    return previous;
+  }, [[]]);
 }
 
 // helper to generate string permutations
-function permute(str){
+function permute(string){
   var words = [];
   
-  function rearrange(str, prefix) {
-    var i, singleChar, balanceStr, word;
- 
-    //The first time round, prefix will be empty
+  function permute(string, prefix) {
+    var balance,
+        word,
+        i,
+        c;
+    
     prefix = prefix || '';
     
-    //Loop over the str to separate each single character
-    //from the rest of it's characters
-    for(i = 0; i < str.length; i++) {
-      singleChar = str[i];
-      balanceStr = str.slice(0, i) + str.slice(i+1);
+    // loop over str to separate each single character
+    for(i = 0; i < string.length; i++) {
+      c = string[i];
+      balance = string.slice(0, i) + string.slice(i + 1);
       
-      //join the prefix with each of the combinations
-      word = prefix + singleChar + balanceStr;
+      // join the prefix with each of the combinations
+      word = prefix + c + balance;
  
-      //Inject this word only if it does not exist
+      // inject this word only if it does not exist
       if(words.indexOf(word) < 0)
         words.push(word);
       
-      //Recursively call this function in case there are balance characters
-      if(balanceStr.length > 1)
-        rearrange(balanceStr, prefix + singleChar);
+      // recursively call this function in case there are balance characters
+      if(balance.length > 1)
+        permute(balance, prefix + c);
     }
   }
   
-  //kick start recursion
-  rearrange(str);
+  permute(string);
   return words;
 }
