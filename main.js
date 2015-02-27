@@ -7,11 +7,16 @@ exports.get = function(string, callback) {
     score_total: 0
   };
   
+  var logic_time,
+      query_time,
+      start,
+      end;
+  
   var words = [],
       set = [];
   
   // start timing
-  var start = process.hrtime();
+  start = process.hrtime();
   
   // generate power set with permutations
   power(string).forEach(function(element) {
@@ -29,7 +34,7 @@ exports.get = function(string, callback) {
   
   // logic exec time
   end = process.hrtime(start);
-  var logic_time = end.pop() / 1000000000 + end.pop();
+  logic_time = end.pop() / 1000000000 + end.pop();
 
   var query = 'SELECT word, score FROM words WHERE word IN ("' + words.join('", "') + '")';
   db.each(query, function(error, row) {
@@ -55,7 +60,7 @@ exports.get = function(string, callback) {
 
     // total exec time
     end = process.hrtime(start);
-    var total_time = end.pop() / 1000000000 + end.pop();
+    total_time = end.pop() / 1000000000 + end.pop();
     
     output.query_time = total_time - logic_time;
     output.logic_time = logic_time;
