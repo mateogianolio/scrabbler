@@ -213,4 +213,4 @@ $ npm test
 
 ## Contribute
 
-Tips on how to improve query performance are highly appreciated. Feel free to fork and submit pull requests.
+Tips on how to improve performance are highly appreciated. Feel free to fork and submit pull requests.
