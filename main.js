@@ -66,8 +66,6 @@ exports.get = function(string, callback) {
     output.logic_time = logic_time;
 
     callback(null, output);
-    
-    db.close();
   });
 };
 
