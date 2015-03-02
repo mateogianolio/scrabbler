@@ -1,5 +1,7 @@
 # Scrabbler
 
+[![npm](https://img.shields.io/npm/dm/scrabbler.svg?style=flat-square)]()
+
 Generates all valid english words from a given combination of letters and scores them according to the [scrabble tile distribution](http://boardgames.about.com/od/scrabble/a/tile_distribute.htm). Uses the [SOWPODS dictionary](http://en.wikipedia.org/wiki/SOWPODS).
 
 ```bash
