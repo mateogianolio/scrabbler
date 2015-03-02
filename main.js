@@ -1,5 +1,5 @@
-var sqlite3 = require('sqlite3');
-var db = new sqlite3.Database(__dirname + '/db/words.db');
+var levelup = require('level');
+var db = levelup(__dirname + '/db');
 
 exports.get = function(string, callback) {
   var output = {
@@ -12,87 +12,91 @@ exports.get = function(string, callback) {
       start,
       end;
   
-  var words = [],
-      set = [];
-  
   // start timing
   start = process.hrtime();
   
-  // generate power set with permutations
-  power(string).forEach(function(element) {
-    if(element.length > 1)
-      set.push(permute(element.join('')));
-  });
+  // generate power set
+  var set = power(string);
   
-  // flatten set
-  for(var i = 0; i < set.length; i++)
-    for(var j = 0; j < set[i].length; j++)
-      words.push(set[i][j]);
+  // cache length for performance
+  var set_length = set.length,
+      element;
   
-  // remove duplicates
-  words = unique(words);
+  // permute power set
+  for(i = 0; i < set_length; i++) {
+    element = set[i].join('');
+    set[i] = permute(element);
+  }
+  
+  var words = [];
+  set_length = set.length;
+  
+  // flatten and deduplicate
+  for(i = 0; i < set_length; i++) {
+    for(j = 0; j < set[i].length; j++) {
+      element = set[i][j];
+
+      if(element.length > 1 && words.indexOf(element) === -1)
+        words.push(element);
+    }
+  }
   
   // logic exec time
   end = process.hrtime(start);
   logic_time = end.pop() / 1000000000 + end.pop();
 
-  var query = 'SELECT word, score FROM words WHERE word IN ("' + words.join('", "') + '")';
-  db.each(query, function(error, row) {
-    if(error)
-      throw error;
-    
-    // not found
-    if(!row)
-      return;
-    
-    output.words.push({
-      word: row.word,
-      score: row.score
+  var words_length = words.length;
+  
+  // start looking up words
+  for(i = 0; i < words_length; i++)
+    find(words[i]);
+  
+  var count = 0,
+      fail_count = 0;
+  
+  function find(word) {
+    db.get(word, function(error, score) {
+      if(error) {
+        if(!error.notFound)
+          callback(error, null);
+
+        ++fail_count;
+      } else {
+        output.words.push({
+          word: word,
+          score: parseInt(score)
+        });
+
+        output.score_total += parseInt(score);
+      }
+
+      // use counter because call order may not remain constant
+      if((++count) === words_length)
+        done();
     });
-    
-    output.score_total += row.score;
-  }, function(error, num_rows) {
-    if(error)
-      throw error;
-    
+  }
+  
+  function done() {
     // fraction of combinations being valid words
-    output.fraction = num_rows / words.length;
+    output.fraction = (words_length - fail_count) / words_length;
 
     // total exec time
     end = process.hrtime(start);
     total_time = end.pop() / 1000000000 + end.pop();
-    
+
     output.query_time = total_time - logic_time;
     output.logic_time = logic_time;
 
     callback(null, output);
-  });
-};
-
-// helper to remove duplicates from array
-function unique(array) {
-  var seen = {},
-      out = [],
-      len = array.length,
-      j = 0;
-  
-  for(var i = 0; i < len; i++) {
-    var item = array[i];
-    if(seen[item] !== 1) {
-      seen[item] = 1;
-      out[j++] = item;
-    }
   }
-  
-  return out;
-}
+};
 
 // helper to generate a power set
 function power(string) {
   var copy,
       deep_copy;
   
-  return [].slice.call(string).reduce( function(previous, current) {
+  return [].slice.call(string).reduce(function(previous, current) {
     copy = previous.slice(0);
     copy.forEach(function(element) {
       deep_copy = element.slice(0);
