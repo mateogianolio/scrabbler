@@ -12,6 +12,8 @@ exports.get = function(string, callback) {
       start,
       end;
   
+  var i, j;
+  
   // start timing
   start = process.hrtime();
   
